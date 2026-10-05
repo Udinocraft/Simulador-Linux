@@ -1,0 +1,73 @@
+# 🐧 Linux Simulator
+
+## 🚀 Development
+
+Linux Simulator was created as a learning project to practice Python programming and develop skills in building larger, more organized systems.
+
+The initial idea was to build an interactive, terminal-based environment. Over time, the project evolved and gained new features, such as:
+
+* 📁 Folder management
+* 💻 Interactive terminal
+* 🌐 Simulated web browser
+* 🧮 Calculator
+* 🎮 Games
+* 📅 Calendar
+* 🕐 Brasília Time clock
+
+Throughout development, various tests, bug fixes, and code organization improvements were carried out.
+
+## 🛠️ Technologies and Concepts Used
+
+### 🐍 Python 3
+
+The primary language used to develop the entire project.
+
+### 🧱 Object-Oriented Programming (OOP)
+
+Used to better organize the code through classes, methods, and objects.
+
+### 🔧 Functions
+
+Employed to break the program down into smaller parts, facilitating code maintenance and reusability.
+
+### 🔀 Conditional Structures
+
+Used to control menus, user choices, and feature operations.
+
+### 🔁 Loop Structures
+
+Responsible for keeping menus active and executing repetitive tasks.
+
+### 📋 Lists and Dictionaries
+
+Used to store and organize system and game information.
+
+### ⚠️ Exception Handling
+
+Applied to prevent errors caused by invalid user input.
+
+### 📅 Date and Time
+
+Used to implement features such as the calendar and clock.
+
+### 💻 Terminal Interface (CLI)
+
+All user interaction takes place via the terminal, simulating an operating system environment. ## 🎯 Key Takeaways
+
+This project provided an opportunity to practice:
+
+* 🐍 Python
+* 🧠 Programming logic
+* 🧱 Object-Oriented Programming
+* 🐛 Debugging
+* 📂 Project organization
+* 🔍 Problem-solving
+* 📚 Software documentation
+
+## 🔮 Future Improvements
+
+* ✨ More advanced interface
+* 🛡️ Improved error handling
+* 📦 Modular organization
+* 🚀 New features
+* 🧪 Implementation of tests
