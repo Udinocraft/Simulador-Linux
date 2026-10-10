@@ -1,0 +1,75 @@
+# 🐧 Linux Simulator
+
+## 🚀 Desenvolvimento
+
+O Linux Simulator foi criado como um projeto de estudos para praticar programação em Python e desenvolver habilidades na criação de sistemas maiores e mais organizados.
+
+A ideia inicial era construir um ambiente interativo baseado em terminal. Com o tempo, o projeto evoluiu e recebeu novas funcionalidades, como:
+
+* 📁 Gerenciamento de pastas
+* 💻 Terminal interativo
+* 🌐 Navegador simulado
+* 🧮 Calculadora
+* 🎮 Jogos
+* 📅 Calendário
+* 🕐 Relógio de Brasília
+
+Durante o desenvolvimento, foram realizados diversos testes, correções de bugs e melhorias na organização do código.
+
+## 🛠️ Tecnologias e Conceitos Utilizados
+
+### 🐍 Python 3
+
+Linguagem principal utilizada para desenvolver todo o projeto.
+
+### 🧱 Programação Orientada a Objetos (POO)
+
+Utilizada para organizar melhor o código através de classes, métodos e objetos.
+
+### 🔧 Funções
+
+Empregadas para dividir o programa em partes menores, facilitando a manutenção e reutilização do código.
+
+### 🔀 Estruturas Condicionais
+
+Utilizadas para controlar menus, escolhas do usuário e funcionamento das funcionalidades.
+
+### 🔁 Estruturas de Repetição
+
+Responsáveis por manter menus ativos e executar tarefas repetitivas.
+
+### 📋 Listas e Dicionários
+
+Utilizados para armazenar e organizar informações do sistema e dos jogos.
+
+### ⚠️ Tratamento de Exceções
+
+Aplicado para evitar erros causados por entradas inválidas do usuário.
+
+### 📅 Data e Hora
+
+Utilizadas para implementar recursos como calendário e relógio.
+
+### 💻 Interface em Terminal (CLI)
+
+Toda a interação do usuário ocorre através do terminal, simulando um ambiente de sistema operacional.
+
+## 🎯 Aprendizados
+
+Com este projeto foi possível praticar:
+
+* 🐍 Python
+* 🧠 Lógica de programação
+* 🧱 Programação Orientada a Objetos
+* 🐛 Correção de erros
+* 📂 Organização de projetos
+* 🔍 Resolução de problemas
+* 📚 Documentação de software
+
+## 🔮 Melhorias Futuras
+
+* ✨ Interface mais avançada
+* 🛡️ Melhor tratamento de erros
+* 📦 Organização em módulos
+* 🚀 Novas funcionalidades
+* 🧪 Implementação de testes
