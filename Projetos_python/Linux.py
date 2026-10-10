@@ -364,6 +364,21 @@ class SistemaOperacional:
                     print("\n" * 50)
                 elif comando == "calc":
                     Calculadora.executar()
+                elif comando in ["neofetch", "fastfetch", "fetch"]:
+                    info = """
+                       .---.         usuario@linux-pc
+                      /     \\        ----------------
+                     | ()_() |       OS: Linux Generic x86_64
+                     |  (_)  |       Kernel: 6.8.0-generic
+                    /  `---'  \\      Uptime: 2 hours, 15 mins
+                   / /       \\ \\     Packages: 1250 (pacman), 15 (flatpak)
+                  / / |     | \\ \\    Shell: bash 5.2.26
+                 / /  |     |  \\ \\   WM/DE: Custom Terminal / Python
+                ( (   |_____|   ) )  CPU: Generic Quad-Core Processor @ 2.40GHz
+                 \\_\\  /     \\  /_/   Memory: 2048MiB / 8192MiB
+                    `-'       `-'    
+                            """
+                    print(info)
                 else:
                     print(f"bash: {comando}: comando não encontrado. Digite 'help'.")
             except KeyboardInterrupt:
