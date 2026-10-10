@@ -380,7 +380,7 @@ class SistemaOperacional:
                             """
                     print(info)
                 else:
-                    print(f"bash: {comando}: comando não encontrado. Digite 'help'.")
+                   print(f"bash: {comando}: comando não encontrado. Digite 'help'.")
             except KeyboardInterrupt:
                 print("\nTerminal encerrado.")
                 break
