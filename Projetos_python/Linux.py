@@ -3,6 +3,7 @@ import string
 import random
 import calendar
 import time
+import sys
 from datetime import datetime
 from zoneinfo import ZoneInfo
 
@@ -100,9 +101,10 @@ class PlataformaJogos:
             print("3 - Cara ou Coroa")
             print("4 - Pergunta e resposta")
             print("5 - Jogo da forca")
+            print("6 - Roleta russa")
 
             try:
-                opcao = int(input("\nEscolha uma opção (1-5): "))
+                opcao = int(input("\nEscolha uma opção (1-6): "))
                 if opcao == 1:
                     break
                 elif opcao == 2:
@@ -113,8 +115,10 @@ class PlataformaJogos:
                     self.pergunta_e_resposta()
                 elif opcao == 5:
                     self.jogo_da_forca()
+                elif opcao == 6:
+                    self.roleta_russa()
                 else:
-                    print("Opção inválida! Digite um número entre 1 e 5.")
+                    print("Opção inválida! Digite um número entre 1 e 6.")
             except ValueError:
                 print("Entrada inválida! Digite apenas números.")
             except KeyboardInterrupt:
@@ -267,6 +271,92 @@ class PlataformaJogos:
 
         self.perguntar_continuar(self.jogo_da_forca)
 
+    def roleta_russa(self):
+        print("\n---- ROLETA RUSSA ----\n")
+        print("Regras:")
+        print("- Um tambor de 6 posições contém apenas 1 bala.")
+        print("- Se você atirar em SI MESMO e NÃO for a bala, você ganha OUTRA JOGADA.")
+        print("- Se você atirar em SI MESMO e FOR a bala, você MORRE e perde o jogo.")
+        print("- Se você atirar na MÁQUINA e NÃO for a bala, passa a vez para ela.")
+        print("- Se você atirar na MÁQUINA e FOR a bala, você VENCE!")
+        print("- A máquina seguirá as mesmas regras no turno dela.")
+        print("-" * 50)
+
+        bala = random.randint(1, 6)
+        posicao_atual = 1
+
+        bala_disparada = False
+
+        while not bala_disparada:
+            print(f"\n--- Turno do Jogador ---")
+            print(f"O tambor está na posição {posicao_atual} de 6.")
+
+            while True:
+                try:
+                    escolha = int(input(
+                        "Escolha seu alvo:\n[1] Atirar em si mesmo\n[2] Atirar na máquina\nDigite sua opção (1 ou 2): "))
+                    if escolha in [1, 2]:
+                        break
+                    else:
+                        print(" Opção inválida! Digite apenas 1 ou 2.")
+                except ValueError:
+                    print(" Entrada inválida! Por favor, digite um número inteiro (1 ou 2).")
+
+            print("Puxando o gatilho...")
+            time.sleep(1)
+
+            # Checa se a posição atual é a da bala
+            if posicao_atual == bala:
+                print(" *BANG!*")
+                if escolha == 1:
+                    print(" A bala estava aqui. Você atirou em si mesmo e morreu. Fim de jogo!")
+                else:
+                    print(" A bala estava aqui! A máquina levou o tiro e explodiu. VOCÊ VENCEU!")
+                return
+            else:
+                print(" *Clique seco...* Nenhuma bala nesta câmara.")
+                if escolha == 1:
+                    print(" Sorte sua! Como você atirou em si mesmo e sobreviveu, você joga de novo!")
+                    posicao_atual += 1
+                    continue
+                else:
+                    print("A máquina sobreviveu ao seu tiro. Passando a vez...")
+                    posicao_atual += 1
+
+            print(f"\n--- Turno da Máquina ---")
+            time.sleep(1.5)
+
+            escolha_maquina = random.choice([1, 2])
+
+            if escolha_maquina == 1:
+                print(" A máquina decidiu apontar a arma para ELA MESMA!")
+            else:
+                print(" A máquina apontou a arma para VOCÊ!")
+
+            print("A máquina puxa o gatilho...")
+            time.sleep(1)
+
+            if posicao_atual == bala:
+                print(" *BANG!*")
+                if escolha_maquina == 1:
+                    print(" A bala estava na vez dela! A máquina atirou nela mesma e morreu. VOCÊ VENCEU!")
+                else:
+                    print(" A bala estava na câmara. A máquina atirou em você e você morreu. Fim de jogo!")
+                return
+            else:
+                print(" *Clique seco...* A máquina teve sorte.")
+                if escolha_maquina == 1:
+                    print("A máquina sobreviveu atirando nela mesma e ganhou mais uma jogada!")
+                    posicao_atual += 1
+                    continue
+                else:
+                    print("Você sobreviveu ao tiro da máquina. O jogo continua!")
+                    posicao_atual += 1
+
+            if posicao_atual > 6:
+                posicao_atual = 1
+
+        self.perguntar_continuar(self.roleta_russa)
 
 class SistemaOperacional:
     def __init__(self, senha_final):
@@ -353,7 +443,7 @@ class SistemaOperacional:
                 if comando == "exit":
                     break
                 elif comando == "help":
-                    print("Comandos disponíveis: ls, date, whoami, clear, calc, exit")
+                    print("Comandos disponíveis: ls, date, whoami, clear, calc, exit, fetch")
                 elif comando == "ls":
                     print("Arquivos/\tlinux-2026.2-installer-amd64.iso\tpycharm-2026.1.3.tar.gz\tDownloads\tPlataforma de Jogos\tCalendario")
                 elif comando == "date":
