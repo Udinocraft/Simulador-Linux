@@ -8,6 +8,18 @@ from datetime import datetime
 from zoneinfo import ZoneInfo
 
 
+class Cores:
+    RESET = "\033[0m"
+    NEGRITO = "\033[1m"
+    VERMELHO = "\033[91m"
+    VERDE = "\033[92m"
+    AMARELO = "\033[93m"
+    AZUL = "\033[94m"
+    MAGENTA = "\033[95m"
+    CIANO = "\033[96m"
+    CINZA = "\033[90m"
+
+
 class GeradorSenha:
     @staticmethod
     def gerar(tamanho=12):
@@ -234,7 +246,7 @@ class PlataformaJogos:
 
     def jogo_da_forca(self):
         print("\n---- JOGO DA FORCA ----\n")
-        palavras = ["python", "programacao", "computador", "teclado"]
+        palavras = ["python", "programacao", "computador", "teclado", "linux", "terminal"]
         palavra = random.choice(palavras)
         letras_descobertas = ["_"] * len(palavra)
         tentativas_restantes = 6
@@ -284,7 +296,6 @@ class PlataformaJogos:
 
         bala = random.randint(1, 6)
         posicao_atual = 1
-
         bala_disparada = False
 
         while not bala_disparada:
@@ -305,7 +316,6 @@ class PlataformaJogos:
             print("Puxando o gatilho...")
             time.sleep(1)
 
-            # Checa se a posição atual é a da bala
             if posicao_atual == bala:
                 print(" *BANG!*")
                 if escolha == 1:
@@ -358,30 +368,68 @@ class PlataformaJogos:
 
         self.perguntar_continuar(self.roleta_russa)
 
+
 class SistemaOperacional:
     def __init__(self, senha_final):
         self.senha_final = senha_final
+        self.usuario = "usuario"
+        self.hostname = "linux-pc"
+        self.inicio_sessao = time.time()
+        self.tema_cor = Cores.CIANO
+        self.historico_comandos = []
+
+        # Sistema de arquivos virtual em memória
+        self.sistema_arquivos = {
+            "~": {
+                "Arquivos": {
+                    "linux-2026.2-installer-amd64.iso": "[Imagem ISO - 4.2 GB]",
+                    "pycharm-2026.1.3.tar.gz": "[Pacote Compactado - 680 MB]"
+                },
+                "Downloads": {
+                    "Plataforma_de_Jogos.app": "[Executável - 1.5 GB]",
+                    "Calendario.app": "[Executável - 50 MB]"
+                },
+                "Documentos": {
+                    "notas.txt": "Bem-vindo ao Simulador Linux!\nUse 'help' para explorar todos os comandos disponíveis.",
+                    "rede.conf": "INTERFACE=wlan0\nIP=192.168.1.42\nDNS=1.1.1.1"
+                },
+                ".bashrc": "# Configuração do Shell\nalias ll='ls -la'\nexport EDITOR=nano"
+            }
+        }
+        self.caminho_atual = ["~"]
+
+    def obter_diretorio_atual(self):
+        ref = self.sistema_arquivos
+        for pasta in self.caminho_atual:
+            ref = ref[pasta]
+        return ref
+
+    def formatar_uptime(self):
+        segundos = int(time.time() - self.inicio_sessao)
+        horas, resto = divmod(segundos, 3600)
+        minutos, seg = divmod(resto, 60)
+        return f"{horas}h {minutos}m {seg}s"
 
     def autenticacao(self):
-        print("\n---- TELA DE LOGIN ----")
+        print(f"\n{Cores.CIANO}---- TELA DE LOGIN ----{Cores.RESET}")
         for i in range(5):
             try:
                 tentativa = input(f"Tentativa {i+1}/5 - Informe sua senha: ")
                 if tentativa == self.senha_final:
-                    print("\nAcesso concedido!")
+                    print(f"\n{Cores.VERDE}Acesso concedido!{Cores.RESET}")
                     self.linux()
                     break
                 else:
-                    print("Senha incorreta, tente novamente.")
+                    print(f"{Cores.VERMELHO}Senha incorreta, tente novamente.{Cores.RESET}")
             except KeyboardInterrupt:
                 print("\nUsuário saiu.")
                 return
         else:
-            print("\nVocê excedeu o limite de tentativas.")
+            print(f"\n{Cores.VERMELHO}Você excedeu o limite de tentativas.{Cores.RESET}")
 
     def linux(self):
         while True:
-            print("\n---- LINUX ----\n")
+            print(f"\n{Cores.CIANO}---- LINUX ----{Cores.RESET}\n")
             print("1 - Bloquear sessão / Voltar ao login")
             print("2 - Navegador")
             print("3 - Terminal")
@@ -435,44 +483,304 @@ class SistemaOperacional:
                 print("\nUsuário saiu.")
                 break
 
+    def _efeito_matrix(self):
+        print(f"{Cores.VERDE}Iniciando Matrix (pressione CTRL+C para sair)...{Cores.RESET}")
+        time.sleep(0.7)
+        caracteres = "01アイウエオカキクケコサシスセソタチツテトナニヌネノ"
+        try:
+            while True:
+                linha = "".join(
+                    random.choice(caracteres) if random.random() > 0.65 else " "
+                    for _ in range(70)
+                )
+                print(f"{Cores.VERDE}{linha}{Cores.RESET}")
+                time.sleep(0.06)
+        except KeyboardInterrupt:
+            print(f"\n{Cores.RESET}Matrix encerrada.")
+
     def terminal(self):
-        print("\n---- TERMINAL (Digite 'help' para ajuda ou 'exit' para sair) ----")
+        banner = f"""{self.tema_cor}{Cores.NEGRITO}
+╔══════════════════════════════════════════════════════════════╗
+║  LINUX TERMINAL v2.6  |  Digite 'help' para ver os comandos  ║
+╚══════════════════════════════════════════════════════════════╝{Cores.RESET}"""
+        print(banner)
+
         while True:
             try:
-                comando = input("[usuario@linux ~]$ ").strip().lower()
-                if comando == "exit":
+                caminho_str = "/".join(self.caminho_atual)
+                prompt = (
+                    f"{self.tema_cor}┌──({Cores.NEGRITO}{self.usuario}㉿{self.hostname}{Cores.RESET}"
+                    f"{self.tema_cor})-[{Cores.AZUL}{Cores.NEGRITO}{caminho_str}{Cores.RESET}{self.tema_cor}]\n"
+                    f"└─$ {Cores.RESET}"
+                )
+                entrada = input(prompt).strip()
+                if not entrada:
+                    continue
+
+                self.historico_comandos.append(entrada)
+                partes = entrada.split()
+                cmd = partes[0].lower()
+                args = partes[1:]
+
+                if cmd == "exit":
                     break
-                elif comando == "help":
-                    print("Comandos disponíveis: ls, date, whoami, clear, calc, exit, fetch")
-                elif comando == "ls":
-                    print("Arquivos/\tlinux-2026.2-installer-amd64.iso\tpycharm-2026.1.3.tar.gz\tDownloads\tPlataforma de Jogos\tCalendario")
-                elif comando == "date":
+
+                elif cmd == "help":
+                    print(f"""
+{Cores.NEGRITO}{self.tema_cor}=== COMANDOS DISPONÍVEIS ==={Cores.RESET}
+{Cores.AMARELO}Navegação & Arquivos:{Cores.RESET}
+  ls [-la]          Lista arquivos e pastas do diretório atual
+  pwd               Mostra o caminho completo atual
+  cd <pasta>        Entra em uma pasta (use 'cd ..' para voltar ou 'cd ~' para home)
+  mkdir <nome>      Cria uma nova pasta
+  touch <arquivo>   Cria um arquivo vazio
+  cat <arquivo>     Exibe o conteúdo de um arquivo
+  echo <txt> > <arq> Escreve texto dentro de um arquivo
+  rm <nome>         Remove um arquivo ou pasta
+
+{Cores.AMARELO}Sistema & Personalização:{Cores.RESET}
+  neofetch / fetch  Mostra informações detalhadas do sistema
+  uname -a          Exibe informações do kernel
+  uptime            Mostra há quanto tempo o sistema está ativo
+  whoami            Exibe o usuário atual
+  passwd            Altera a senha de login da sessão
+  theme <cor>       Muda a cor do terminal (ciano, verde, magenta, azul, amarelo)
+  history           Mostra o histórico de comandos digitados
+  clear             Limpa a tela do terminal
+
+{Cores.AMARELO}Rede & Ferramentas:{Cores.RESET}
+  ifconfig / ip     Exibe interfaces de rede e endereço IP
+  ping <host>       Testa conectividade com um servidor
+  nmap <alvo>       Simula varredura de portas em um alvo
+  matrix            Ativa chuva de caracteres estilo Matrix
+  calc              Abre a calculadora
+  jogos             Abre a plataforma de jogos
+  date              Mostra data e hora atuais
+  exit              Fecha o terminal
+""")
+
+                elif cmd == "pwd":
+                    caminho_real = "/home/" + self.usuario + ("/" + "/".join(self.caminho_atual[1:]) if len(self.caminho_atual) > 1 else "")
+                    print(caminho_real)
+
+                elif cmd == "ls":
+                    dir_atual = self.obter_diretorio_atual()
+                    mostrar_ocultos = "-a" in args or "-la" in args or "-al" in args
+                    detalhado = "-l" in args or "-la" in args or "-al" in args
+
+                    itens = list(dir_atual.keys())
+                    if not mostrar_ocultos:
+                        itens = [i for i in itens if not i.startswith(".")]
+
+                    if not itens:
+                        print(f"{Cores.CINZA}(diretório vazio){Cores.RESET}")
+                        continue
+
+                    for item in itens:
+                        eh_pasta = isinstance(dir_atual[item], dict)
+                        if eh_pasta:
+                            nome_fmt = f"{Cores.AZUL}{Cores.NEGRITO}{item}/{Cores.RESET}"
+                            perm = "drwxr-xr-x"
+                        elif item.endswith((".app", ".sh")):
+                            nome_fmt = f"{Cores.VERDE}{Cores.NEGRITO}{item}{Cores.RESET}"
+                            perm = "-rwxr-xr-x"
+                        elif item.endswith((".iso", ".tar.gz", ".zip")):
+                            nome_fmt = f"{Cores.VERMELHO}{item}{Cores.RESET}"
+                            perm = "-rw-r--r--"
+                        else:
+                            nome_fmt = item
+                            perm = "-rw-r--r--"
+
+                        if detalhado:
+                            print(f"{Cores.CINZA}{perm}  {self.usuario}  {Cores.RESET}{nome_fmt}")
+                        else:
+                            print(nome_fmt, end="   ")
+                    if not detalhado:
+                        print()
+
+                elif cmd == "cd":
+                    if not args or args[0] == "~":
+                        self.caminho_atual = ["~"]
+                    elif args[0] == "..":
+                        if len(self.caminho_atual) > 1:
+                            self.caminho_atual.pop()
+                    else:
+                        destino = args[0].rstrip("/")
+                        dir_atual = self.obter_diretorio_atual()
+                        if destino in dir_atual and isinstance(dir_atual[destino], dict):
+                            self.caminho_atual.append(destino)
+                        elif destino in dir_atual:
+                            print(f"{Cores.VERMELHO}bash: cd: {destino}: Não é um diretório{Cores.RESET}")
+                        else:
+                            print(f"{Cores.VERMELHO}bash: cd: {destino}: Arquivo ou diretório inexistente{Cores.RESET}")
+
+                elif cmd == "mkdir":
+                    if not args:
+                        print("mkdir: operando faltando")
+                    else:
+                        nome = args[0]
+                        dir_atual = self.obter_diretorio_atual()
+                        if nome in dir_atual:
+                            print(f"{Cores.VERMELHO}mkdir: não foi possível criar '{nome}': Arquivo já existe{Cores.RESET}")
+                        else:
+                            dir_atual[nome] = {}
+                            print(f"{Cores.VERDE}Diretório '{nome}' criado.{Cores.RESET}")
+
+                elif cmd == "touch":
+                    if not args:
+                        print("touch: operando de arquivo faltando")
+                    else:
+                        nome = args[0]
+                        dir_atual = self.obter_diretorio_atual()
+                        if nome not in dir_atual:
+                            dir_atual[nome] = ""
+
+                elif cmd == "cat":
+                    if not args:
+                        print("cat: informe o nome do arquivo")
+                    else:
+                        nome = args[0]
+                        dir_atual = self.obter_diretorio_atual()
+                        if nome in dir_atual:
+                            if isinstance(dir_atual[nome], dict):
+                                print(f"{Cores.VERMELHO}cat: {nome}: É um diretório{Cores.RESET}")
+                            else:
+                                print(dir_atual[nome] if dir_atual[nome] else f"{Cores.CINZA}(arquivo vazio){Cores.RESET}")
+                        else:
+                            print(f"{Cores.VERMELHO}cat: {nome}: Arquivo ou diretório inexistente{Cores.RESET}")
+
+                elif cmd == "echo":
+                    if ">" in args:
+                        idx = args.index(">")
+                        texto = " ".join(args[:idx]).strip('"').strip("'")
+                        if idx + 1 < len(args):
+                            arquivo = args[idx + 1]
+                            dir_atual = self.obter_diretorio_atual()
+                            dir_atual[arquivo] = texto
+                        else:
+                            print("Erro de sintaxe perto de '>'")
+                    else:
+                        print(" ".join(args).strip('"').strip("'"))
+
+                elif cmd == "rm":
+                    if not args:
+                        print("rm: operando faltando")
+                    else:
+                        nome = args[0].rstrip("/")
+                        dir_atual = self.obter_diretorio_atual()
+                        if nome in dir_atual:
+                            del dir_atual[nome]
+                            print(f"{Cores.AMARELO}'{nome}' removido.{Cores.RESET}")
+                        else:
+                            print(f"{Cores.VERMELHO}rm: não foi possível remover '{nome}': Arquivo ou diretório inexistente{Cores.RESET}")
+
+                elif cmd == "date":
                     print(datetime.now().strftime("%d/%m/%Y %H:%M:%S"))
-                elif comando == "whoami":
-                    print("usuario")
-                elif comando == "clear":
-                    print("\n" * 50)
-                elif comando == "calc":
+
+                elif cmd == "whoami":
+                    print(self.usuario)
+
+                elif cmd == "uname":
+                    if "-a" in args:
+                        print(f"Linux {self.hostname} 6.11.6-arch1-1 #1 SMP PREEMPT_DYNAMIC x86_64 GNU/Linux")
+                    else:
+                        print("Linux")
+
+                elif cmd == "uptime":
+                    print(f" {datetime.now().strftime('%H:%M:%S')} up {self.formatar_uptime()},  1 user,  load average: 0.14, 0.09, 0.05")
+
+                elif cmd == "history":
+                    for idx, item_hist in enumerate(self.historico_comandos, start=1):
+                        print(f" {Cores.CINZA}{idx:3d}{Cores.RESET}  {item_hist}")
+
+                elif cmd == "theme":
+                    temas = {
+                        "ciano": Cores.CIANO,
+                        "verde": Cores.VERDE,
+                        "magenta": Cores.MAGENTA,
+                        "azul": Cores.AZUL,
+                        "amarelo": Cores.AMARELO
+                    }
+                    if args and args[0].lower() in temas:
+                        self.tema_cor = temas[args[0].lower()]
+                        print(f"{self.tema_cor}Tema alterado para {args[0].lower()}!{Cores.RESET}")
+                    else:
+                        print("Uso: theme <ciano | verde | magenta | azul | amarelo>")
+
+                elif cmd == "passwd":
+                    nova_senha = input("Digite a nova senha (mínimo 8 caracteres): ").strip()
+                    if len(nova_senha) >= 8:
+                        self.senha_final = nova_senha
+                        print(f"{Cores.VERDE}passwd: senha atualizada com sucesso.{Cores.RESET}")
+                    else:
+                        print(f"{Cores.VERMELHO}Senha muito curta! Operação cancelada.{Cores.RESET}")
+
+                elif cmd == "sudo":
+                    print(f"{Cores.VERMELHO}[sudo] senha para {self.usuario}: {Cores.RESET}", end="")
+                    input()
+                    print(f"{Cores.VERMELHO}{self.usuario} não está no arquivo sudoers. Este incidente será reportado.{Cores.RESET}")
+
+                elif cmd in ["ifconfig", "ip"]:
+                    print(f"""{Cores.NEGRITO}lo:{Cores.RESET} flags=73<UP,LOOPBACK,RUNNING>  mtu 65536
+        inet 127.0.0.1  netmask 255.0.0.0
+
+{Cores.NEGRITO}wlan0:{Cores.RESET} flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+        inet {Cores.VERDE}192.168.1.42{Cores.RESET}  netmask 255.255.255.0  broadcast 192.168.1.255
+        ether 00:1a:2b:3c:4d:5e  txqueuelen 1000  (Ethernet)""")
+
+                elif cmd == "ping":
+                    alvo = args[0] if args else "8.8.8.8"
+                    print(f"PING {alvo} ({alvo}) 56(84) bytes de dados.")
+                    for seq in range(1, 5):
+                        latencia = round(random.uniform(11.2, 28.9), 1)
+                        print(f"64 bytes de {alvo}: icmp_seq={seq} ttl=117 tempo={Cores.VERDE}{latencia} ms{Cores.RESET}")
+                        time.sleep(0.5)
+                    print(f"--- {alvo} estatísticas de ping ---\n4 pacotes transmitidos, 4 recebidos, 0% perda de pacote")
+
+                elif cmd == "nmap":
+                    alvo = args[0] if args else "192.168.1.1"
+                    print(f"Iniciando Nmap 7.95 em {alvo}...")
+                    time.sleep(1)
+                    print(f"""PORT     STATE SERVICE
+{Cores.VERDE}22/tcp   open  ssh{Cores.RESET}
+{Cores.VERDE}80/tcp   open  http{Cores.RESET}
+{Cores.VERDE}443/tcp  open  https{Cores.RESET}
+{Cores.AMARELO}8080/tcp filtered http-proxy{Cores.RESET}
+Nmap concluído: 1 endereço IP (1 host ativo) escaneado em 1.12 segundos.""")
+
+                elif cmd == "matrix":
+                    self._efeito_matrix()
+
+                elif cmd == "clear":
+                    print("\033[H\033[J", end="")
+
+                elif cmd == "calc":
                     Calculadora.executar()
-                elif comando in ["neofetch", "fastfetch", "fetch"]:
-                    info = """
-                       .---.         usuario@linux-pc
-                      /     \\        ----------------
-                     | ()_() |       OS: Linux Generic x86_64
-                     |  (_)  |       Kernel: 6.8.0-generic
-                    /  `---'  \\      Uptime: 2 hours, 15 mins
-                   / /       \\ \\     Packages: 1250 (pacman), 15 (flatpak)
-                  / / |     | \\ \\    Shell: bash 5.2.26
-                 / /  |     |  \\ \\   WM/DE: Custom Terminal / Python
-                ( (   |_____|   ) )  CPU: Generic Quad-Core Processor @ 2.40GHz
-                 \\_\\  /     \\  /_/   Memory: 2048MiB / 8192MiB
-                    `-'       `-'    
-                            """
+
+                elif cmd == "jogos":
+                    jogos = PlataformaJogos(self)
+                    jogos.menu()
+
+                elif cmd in ["neofetch", "fastfetch", "fetch"]:
+                    info = f"""
+{self.tema_cor}        .---.          {Cores.NEGRITO}{self.usuario}@{self.hostname}{Cores.RESET}
+{self.tema_cor}       /     \\         {Cores.CINZA}----------------{Cores.RESET}
+{self.tema_cor}      | ()_() |        {self.tema_cor}OS:{Cores.RESET} Arch Linux Custom x86_64
+{self.tema_cor}      |  (_)  |        {self.tema_cor}Kernel:{Cores.RESET} 6.11.6-arch1-1
+{self.tema_cor}     /  `---'  \\       {self.tema_cor}Uptime:{Cores.RESET} {self.formatar_uptime()}
+{self.tema_cor}    / /       \\ \\      {self.tema_cor}Packages:{Cores.RESET} 1250 (pacman), 15 (flatpak)
+{self.tema_cor}   / / |     | \\ \\     {self.tema_cor}Shell:{Cores.RESET} bash 5.2.37
+{self.tema_cor}  / /  |     |  \\ \\    {self.tema_cor}WM/DE:{Cores.RESET} Custom Terminal / Python
+{self.tema_cor} ( (   |_____|   ) )   {self.tema_cor}CPU:{Cores.RESET} Ryzen 5 5600GT (12) @ 4.40GHz
+{self.tema_cor}  \\_\\  /     \\  /_/    {self.tema_cor}Memory:{Cores.RESET} 2048MiB / 16384MiB
+{self.tema_cor}    `-'       `-'      {Cores.VERMELHO}███{Cores.VERDE}███{Cores.AMARELO}███{Cores.AZUL}███{Cores.MAGENTA}███{Cores.CIANO}███{Cores.RESET}
+"""
                     print(info)
                 else:
-                   print(f"bash: {comando}: comando não encontrado. Digite 'help'.")
+                    print(f"{Cores.VERMELHO}bash: {cmd}: comando não encontrado. Digite 'help'.{Cores.RESET}")
+
             except KeyboardInterrupt:
-                print("\nTerminal encerrado.")
+                print(f"\n{Cores.AMARELO}Terminal encerrado.{Cores.RESET}")
                 break
 
     def calendario(self):
@@ -583,10 +891,8 @@ class SistemaOperacional:
 
 
 if __name__ == "__main__":
-    # Geração inicial de segurança
     senha_final = GeradorSenha.gerar_senha_segura(tamanho=12)
     print(f"\n[SISTEMA] Sua senha de acesso é: {senha_final}\n")
 
-    # Inicialização do Sistema Operacional
     os_simulado = SistemaOperacional(senha_final)
     os_simulado.autenticacao()
